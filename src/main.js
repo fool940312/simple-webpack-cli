@@ -1,10 +1,9 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router';
-import App from './App'
-
+import Vue from "vue"
+import VueRouter from "vue-router"
+import App from "./App"
 Vue.use(VueRouter)
 
-var vm = new Vue({
-    el:'#app',
-    render:h => h(App)
+new Vue({
+	el:"#app",
+	render:h => h(App)
 })

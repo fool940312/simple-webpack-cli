@@ -52,9 +52,9 @@ module.exports = {
     resolve:{
         extensions: ['.js','.scss','.json','.css','.vue'],
         alias: {
-            src :path.resolve(__dirname, '../src'),
-            components :path.resolve(__dirname, '../src/components')
-            // utils :path.resolve(__dirname, '../src/utils'),
+            "@src":path.resolve("src"),
+            "@components":path.resolve("src/components"),
+            "@lib":path.resolve("src/lib")
           },
           modules: ['node_modules'],
     },
@@ -72,12 +72,23 @@ module.exports = {
             {
                 test:/\.css$/,
                 use:[
-                    env === 'development' ? 'style-loader' : MiniCssExtractPlugin.loader
+                    env === 'development' ? 'vue-style-loader' : MiniCssExtractPlugin.loader
                     ,'css-loader']
             },
             {
-                test:/\.(scss | sass)$/,
-                use:[env === 'development' ? 'style-loader' : MiniCssExtractPlugin.loader,'css-loader','sass-loader'],
+                test:/\.scss$/,
+                use:[
+                    env === 'development' ? 'vue-style-loader' : MiniCssExtractPlugin.loader,
+                    'css-loader',
+                    'sass-loader',
+                    {
+                        loader: 'sass-resources-loader',
+                        options: {
+
+                            resources: ['./src/lib/style/common.scss']
+                        }
+                    }
+                ]
             },
             {
                 test: /\.(png|jpg|jpeg|gif)$/,
@@ -97,17 +108,17 @@ module.exports = {
                 ],
             },
             {
-                test: /\.(woff|woff2|ttf|eot|svg)$/,
-                exclude: /node_modules/,
+                test: /\.(eot|svg|ttf|woff|woff2)(\?\S*)?$/,
+                // exclude: /node_modules/,
                 use: [
                     {
                         loader: 'file-loader',
                         options: {
                             name: '[name].[hash:8].[ext]',
                             //引用文件路径
-                            publicPath:"./fonts/",
+                            publicPath:"../../"
                             //打包文件路径
-                            outputPath:"/fonts"
+                            // outputPath:"/fonts"
                         }
                     },
                 ],
